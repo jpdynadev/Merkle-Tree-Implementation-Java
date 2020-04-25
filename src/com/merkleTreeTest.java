@@ -2,6 +2,7 @@ package com;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,24 +13,27 @@ class merkleTreeTest {
 	@Test
 	void test() throws Exception{
 		
-		List<String> values = new ArrayList<>();
-		List<String> testList = new ArrayList<>();
+		List<String> firstList = new ArrayList<>();
+		List<String> secondList = new ArrayList<>();
 		
 		//FirstList values
-		values.add("Testing Script");
-		values.add("Testing String");
-		values.add("This is a test");
+		firstList.add("Testing Script");
+		firstList.add("Testing String");
+		firstList.add("This is a test");
 		
 		//Second test list values
-		testList.add("Testing Script");
-		testList.add("Testing String");
-		testList.add("Not a test?");
+		secondList.add("Testing Script");
+		secondList.add("Testing String");
+		secondList.add("Not a test?");
 		
-		MerkleTree firstMerkleTree = new MerkleTree(values);
-		String merkleTreeRoot = firstMerkleTree.getRoot();
-		MerkleTree secondMerkleTree = new MerkleTree(testList);
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		Merkle firstMerkleTree = new Merkle(firstList, md);
+		String firstRoot = firstMerkleTree.getRoot();
+		System.out.println(firstRoot);
+		Merkle secondMerkleTree = new Merkle(secondList, md);
 		String secondRoot = secondMerkleTree.getRoot();
-		assertNotEquals("Success",merkleTreeRoot, secondRoot);
+		System.out.println(secondRoot);
+		assertNotEquals(firstRoot, secondRoot);
 		
 	}
 
